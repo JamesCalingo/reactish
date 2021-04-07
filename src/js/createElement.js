@@ -43,19 +43,19 @@ const Reactish = {
   render,
 };
 /** @jsx Reactish.createElement */
-const element =(
-  "div",
-  {id: "bloggo"},
-  Reactish.createElement("h1", null, `TOTES BLOGGO IN PROGRESS`)
-);
-const container = document.getElementById("root");
-Reactish.render(element, container);
+// const element =(
+//   "div",
+//   {id: "bloggo"},
+//   Reactish.createElement("h1", null, `TOTES BLOGGO IN PROGRESS`)
+// );
+// const container = document.getElementById("root");
+// Reactish.render(element, container);
 
-// const element = Reactish.createElement(
-//   <div id="bloggo">
-//     <h1>TOTES BLOGGO IN PROGRESS</h1>
-//     <p>Hi!</p>
-//     <p>Welcome to the new site for my blog!<br/>
-//     ...once it's ready.</p>
-//   </div>
-// )
+const element = Reactish.createElement(
+  <div id="bloggo">
+    <h1>TOTES BLOGGO IN PROGRESS</h1>
+    <p>Hi!</p>
+    <p>Welcome to the new site for my blog!<br/>
+    ...once it's ready.</p>
+  </div>
+)

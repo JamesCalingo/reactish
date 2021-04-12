@@ -234,14 +234,18 @@ const Reactish = {
   render,
 };
 /** @jsx Reactish.createElement */
+function App(props) {
+  return <h1> TEST</h1>
+}
+
 const element =
   ("div",
   { id: "bloggo" },
-  Reactish.createElement("h1", null, `BLOGGO IN PROG...GO`));
+  Reactish.createElement("h1", null, [`BLOGGO IN PROG...GO`], props.name));
 const container = document.getElementById("root");
 Reactish.render(element, container);
 
-// const element = Reactish.createElement(
+// const element =(
 //   <div id="bloggo">
 //     <h1>TOTES BLOGGO IN PROGRESS</h1>
 //     <p>Hi!</p>

@@ -88,9 +88,9 @@ function commitRoot() {
 function commitWork(fiber) {
   if (!fiber) return;
 
-  const domParentFiber = fiber.parent;
+ let domParentFiber = fiber.parent;
   while(!domParentFiber.dom){
-    domParentFiber = domParentFiber
+    domParentFiber = domParentFiber.parent
   }
   const domParent = domParentFiber.dom
   if (fiber.effectTag === "PLACEMENT" && fiber.dom != null) {
@@ -136,11 +136,11 @@ function workLoop(deadline) {
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
     shouldYield = deadline.timeRemaining() < 1;
   }
+  
+  if (!nextUnitOfWork && wipRoot) {
+    commitRoot();
+  }
   requestIdleCallback(workLoop);
-}
-
-if (!nextUnitOfWork && wipRoot) {
-  commitRoot();
 }
 
 requestIdleCallback(workLoop);
@@ -167,6 +167,7 @@ function performUnitOfWork(fiber) {
 
 let wipFiber = null
 let hookIndex = null
+
 function updateFunctionComponent(fiber) {
   wipFiber = fiber
   hookIndex = 0
@@ -174,7 +175,6 @@ function updateFunctionComponent(fiber) {
   const children = [fiber.type(fiber.props)]
   reconcileChildren(fiber, children)
 }
-
 
 function useState(initial) {
 const oldHook = 
@@ -186,7 +186,7 @@ const hook = {
   queue: []
 }
 
-const actions = oldHook ? oldHook.queue: []
+const actions = oldHook ? oldHook.queue : []
 actions.forEach(action => {
   hook.state = action(hook.state)
 })
@@ -255,10 +255,13 @@ function reconcileChildren(wipFiber, elements) {
       oldFiber.effectTag = "DELETION";
       deletions.push(oldFiber);
     }
+    if(oldFiber) {
+      oldFiber = oldFiber.sibling
+    }
 
     if (i === 0) {
       wipFiber.child = newFiber;
-    } else {
+    } else if (elem){
       prevSibling.sibling = newFiber;
     }
 
@@ -273,10 +276,6 @@ const Reactish = {
   useState,
 };
 /** @jsx Reactish.createElement */
-// function App(props) {
-//   return element;
-// }
-
   
   const element =(
       <div id="bloggo">

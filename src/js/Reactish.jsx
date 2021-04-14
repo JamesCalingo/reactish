@@ -166,9 +166,46 @@ function performUnitOfWork(fiber) {
   }
 }
 
+let wipFiber = null
+let hookIndex = null
 function updateFunctionComponent(fiber) {
+  wipFiber = fiber
+  hookIndex = 0
+  wipFiber.hooks = []
   const children = [fiber.type(fiber.props)]
   reconcileChildren(fiber, children)
+}
+
+
+function useState(initial) {
+const oldHook = 
+wipFiber.alternate &&
+wipFiber.alternate.hooks &&
+wipFiber.alternate.hooks[hookIndex]
+const hook = {
+  state: oldHook ? oldHook.state : initial,
+  queue: []
+}
+
+const actions = oldHook ? oldHook.queue: []
+actions.forEach(action => {
+  hook.state = action(hook.state)
+})
+
+const setState = action => {
+  hook.queue.push(action)
+  wipRoot = {
+    dom: currentRoot.dom,
+    props: currentRoot.props,
+    alternate: currentRoot,
+  }
+  nextUnitOfWork = wipRoot
+  deletions = []
+}
+
+wipFiber.hooks.push(hook)
+hookIndex++
+return[hook.state, setState]
 }
 
 function updateHostComponent(fiber) {
@@ -202,7 +239,7 @@ function reconcileChildren(wipFiber, elements) {
       };
     }
 
-    if (element && !sameType) {
+    if (elem && !sameType) {
       //add node
       newFiber = {
         type: elem.type,
@@ -234,24 +271,24 @@ function reconcileChildren(wipFiber, elements) {
 const Reactish = {
   createElement,
   render,
+  useState,
 };
 /** @jsx Reactish.createElement */
-function App(props) {
-  return <h1> TEST</h1>;
-}
+// function App(props) {
+//   return element;
+// }
 
-const element =
-  ("div",
-  { id: "bloggo" },
-  Reactish.createElement("h1", null, [`BLOGGO IN PROG...GO`], props.name));
-const container = document.getElementById("root");
-Reactish.render(element, container);
+  
+  const element =(
+      <div id="bloggo">
+        <h1>TOTES BLOGGO IN PROGRESS</h1>
+        <p>Hi!</p>
+        <p>Welcome to the new site for my blog!<br/>
+        ...once it's ready.</p>
+      </div>
+    )
+    
+    const container = document.getElementById("root");
+    Reactish.render(element, container);
 
-// const element =(
-//   <div id="bloggo">
-//     <h1>TOTES BLOGGO IN PROGRESS</h1>
-//     <p>Hi!</p>
-//     <p>Welcome to the new site for my blog!<br/>
-//     ...once it's ready.</p>
-//   </div>
-// )
+    export default Reactish

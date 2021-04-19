@@ -1,3 +1,4 @@
+// @ts-ignore
 function createElement(type, props, ...children) {
   return {
     type,

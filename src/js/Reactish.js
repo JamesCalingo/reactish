@@ -31,7 +31,7 @@ function createDom(fiber) {
       return dom
 }
 
-  const isProperty = (key) => key !== "children";
+
   const isEvent = (key) => key.startsWith("on");
   const isProperty = (key) => key !== "children" && !isEvent(key);
   const isNew = (prev, next) => (key) => prev[key] !== next[key];
@@ -276,17 +276,13 @@ const Reactish = {
   useState,
 };
 /** @jsx Reactish.createElement */
-  
-  const element =(
-      <div id="bloggo">
-        <h1>TOTES BLOGGO IN PROGRESS</h1>
-        <p>Hi!</p>
-        <p>Welcome to the new site for my blog!<br/>
-        ...once it's ready.</p>
-      </div>
+  const element = Reactish.createElement(
+    "div",
+    null,
+    Reactish.createElement("h1", null, "TOTES BLOGGO IN PROGGO"),
+    Reactish.createElement("p", null, `This site is still very much under construction, but trust me, there'll be some awesome stuff here when it's ready.`),
+   
     )
     
     const container = document.getElementById("root");
     Reactish.render(element, container);
-
-    export default Reactish

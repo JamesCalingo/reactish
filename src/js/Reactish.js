@@ -143,7 +143,7 @@ function workLoop(deadline) {
   requestIdleCallback(workLoop);
 }
 
-requestIdleCallback(workLoop);
+// requestIdleCallback(workLoop);
 
 function performUnitOfWork(fiber) {
   const isFunctionComponent = fiber.type instanceof Function;

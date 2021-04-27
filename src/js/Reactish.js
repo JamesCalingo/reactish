@@ -5,7 +5,7 @@ function createElement(type, props, ...children) {
     props: {
       ...props,
       children: children.map((child) =>
-        typeof child == "object" ? child : createTextElement(child)
+        typeof child === "object" ? child : createTextElement(child)
       ),
     },
   };
@@ -143,7 +143,7 @@ function workLoop(deadline) {
   requestIdleCallback(workLoop);
 }
 
-// requestIdleCallback(workLoop);
+requestIdleCallback(workLoop);
 
 function performUnitOfWork(fiber) {
   const isFunctionComponent = fiber.type instanceof Function;

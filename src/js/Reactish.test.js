@@ -1,4 +1,4 @@
-const Reactish = require("./Reactish")
+// const Reactish = require("./Reactish")
 
 it("Creates HTML elements and adds them to the DOM", () => {
 

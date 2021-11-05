@@ -1,8 +1,7 @@
-# blog
-A personally designed blog from the ground up
+# Reactish
+A React style "framework".
 
 # What it is
-Using the power of JavaScript, this is a personal blog set up as a single page application.
 
 "So...React?"
 
